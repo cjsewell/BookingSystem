@@ -1,0 +1,7 @@
+---
+Name: myproject
+---
+SilverStripe\Core\Manifest\ModuleManifest:
+  project: app
+SilverStripe\Security\RememberLoginHash:
+  token_expiry_days: 1
