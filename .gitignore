@@ -7,3 +7,5 @@
 /.idea
 node_modules/
 ss.error.log
+.DS_Store
+/themes/.DS_Store

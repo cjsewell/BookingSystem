@@ -7,3 +7,6 @@ SilverStripe\Forms\FormField:
 SilverStripe\Control\Controller:
   extensions:
     - Bookings\Extensions\ThemeRequirements_Extensions
+SilverStripe\Security\Member:
+  extensions:
+    - Bookings\Extensions\Member_Extensions
