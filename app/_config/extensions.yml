@@ -1,0 +1,9 @@
+---
+name: booking_extensions
+---
+SilverStripe\Forms\FormField:
+  extensions:
+    - Bookings\Extensions\FormFieldDefault_Extensions
+SilverStripe\Control\Controller:
+  extensions:
+    - Bookings\Extensions\ThemeRequirements_Extensions

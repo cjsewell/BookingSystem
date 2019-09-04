@@ -1,18 +1,22 @@
 {
-    "name": "silverstripe/installer",
-    "type": "silverstripe-recipe",
-    "description": "The SilverStripe Framework Installer",
+    "name": "booking/system",
+    "description": "Booking tracking system",
     "authors": [
         {
             "name": "Kartik Patel",
             "email": "kartik@gurudigital.nz",
-            "role": "SilverStripe Developer"
+            "role": "Developer"
         }
     ],
     "require": {
         "silverstripe/recipe-core": "^4.4",
         "silverstripe/admin": "^1.3",
         "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bookings\\": "app/src/Bookings"
+        }
     },
     "extra": {
         "resources-dir": "_resources",
