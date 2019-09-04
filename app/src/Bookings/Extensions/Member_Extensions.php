@@ -20,5 +20,9 @@ namespace Bookings\Extensions {
         private static $has_one = [
             'Company' => Company::class
         ];
+
+        public function updateValidator ($validator){
+            $validator->addRequiredField('Surname');
+        }
     }
 }

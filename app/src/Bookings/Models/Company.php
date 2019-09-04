@@ -9,6 +9,7 @@
 namespace Bookings\Models {
 
     use SilverStripe\ORM\DataObject;
+    use SilverStripe\ORM\ValidationResult;
     use SilverStripe\Security\Member;
 
     /**
@@ -34,5 +35,38 @@ namespace Bookings\Models {
             'Members' => Member::class,
             'Clients' => Client::class
         ];
+
+        public function validate()
+        {
+            $result =  parent::validate();
+            try{
+                $this->validation($result);
+            }catch (\Exception $exc) {
+                $result->addError($exc->getMessage());
+            }
+
+            return $result;
+        }
+
+        public function validation(ValidationResult $result){
+            $this->getTrimData();
+
+            if(strlen($this->Name) == 0)
+                $result->addFieldError('Name', 'Company Name is required!');
+        }
+
+
+        public function onBeforeWrite()
+        {
+            parent::onBeforeWrite();
+            $this->getTrimData();
+        }
+
+        /**
+         * Trim data objects
+         */
+        public function getTrimData(){
+            $this->Name;
+        }
     }
 }

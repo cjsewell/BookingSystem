@@ -8,8 +8,10 @@
 
 namespace Bookings\Models {
 
+    use SilverStripe\Dev\Debug;
     use SilverStripe\ORM\DataObject;
     use SilverStripe\ORM\FieldType\DBDatetime;
+    use SilverStripe\ORM\ValidationResult;
 
     /**
      * Class Reservation
@@ -44,5 +46,35 @@ namespace Bookings\Models {
             'StartDate',
             'EndDate'
         ];
+
+        public function validate()
+        {
+            $result = parent::validate();
+            try{
+                $this->validation($result);
+            }catch (\Exception $exc){
+                $result->addError($exc->getMessage());
+            }
+            return $result;
+        }
+
+        public function validation(ValidationResult $result){
+           if(!$this->dbObject('StartDate')->exists())
+               $result->addFieldError('StartDate', 'Start Date is required!');
+
+           if(!$this->dbObject('EndDate')->exists())
+               $result->addFieldError('EndDate', 'End Date is required!');
+        }
+
+        public function getTrimData(){
+            $this->Notes;
+        }
+
+        public function onBeforeWrite()
+        {
+            parent::onBeforeWrite();
+            $this->getTrimData();
+
+        }
     }
 }

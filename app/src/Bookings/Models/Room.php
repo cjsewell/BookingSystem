@@ -9,6 +9,7 @@
 namespace Bookings\Models {
 
     use SilverStripe\ORM\DataObject;
+    use SilverStripe\ORM\ValidationResult;
 
     /**
      * Class Room
@@ -35,5 +36,38 @@ namespace Bookings\Models {
         private static $has_many = [
             'Reservations' => Reservation::class
         ];
+
+        public function validate()
+        {
+            $result =  parent::validate();
+            try{
+                $this->validation($result);
+            }catch (\Exception $exc) {
+                $result->addError($exc->getMessage());
+            }
+
+            return $result;
+        }
+
+        public function validation(ValidationResult $result){
+            $this->getTrimData();
+
+            if(strlen($this->Name) == 0)
+                $result->addFieldError('Name', 'Name is required!');
+        }
+
+
+        public function onBeforeWrite()
+        {
+            parent::onBeforeWrite();
+            $this->getTrimData();
+        }
+
+        /**
+         * Trim data objects
+         */
+        public function getTrimData(){
+            $this->Name;
+        }
     }
 }

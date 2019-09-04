@@ -8,7 +8,9 @@
 
 namespace Bookings\Models {
 
+    use function GuzzleHttp\Psr7\str;
     use SilverStripe\ORM\DataObject;
+    use SilverStripe\ORM\ValidationResult;
 
     /**
      * Class Client
@@ -36,12 +38,56 @@ namespace Bookings\Models {
             'Company' => Company::class
         ];
 
-        private static $sumamry_fields = [
+        private static $summary_fields = [
           'Name',
           'Email',
           'Phone',
           'Mobile',
           'Address'
         ];
+
+        public function validate()
+        {
+            $result =  parent::validate();
+            try{
+                $this->validation($result);
+            }catch (\Exception $exc) {
+                $result->addError($exc->getMessage());
+            }
+
+            return $result;
+        }
+
+        public function validation (ValidationResult $result){
+            $this->getTrimData();
+            if(strlen($this->Name) == 0)
+                $result->addFieldError('Name', 'Name field is required!');
+
+            if(strlen($this->Email) == 0)
+                $result->addFieldError('Email', 'Email field is required!');
+
+            if(!strlen($this->Phone) > 0 && strlen($this->Mobile) == 0)
+                $result->addFieldError('Mobile', 'Mobile field is required!');
+
+            if(!strlen($this->Mobile) > 0 && strlen($this->Phone) == 0)
+                $result->addFieldError('Phone', 'Phone field is required!');
+        }
+
+        /**
+         * Trim all data before writing to database
+         */
+        public function getTrimData(){
+            $this->Name = trim($this->Name);
+            $this->Email = trim($this->Email);
+            $this->Phone = trim($this->Phone);
+            $this->Mobile = trim($this->Mobile);
+            $this->Address = trim($this->Address);
+        }
+
+        public function onBeforeWrite()
+        {
+            parent::onBeforeWrite();
+            $this->getTrimData();
+        }
     }
 }
