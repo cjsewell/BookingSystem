@@ -53,10 +53,22 @@ html, body {
       width: 50%;
     }
   }
-
 }
 
+.authentication {
+  margin: 20px 0;
+  text-align: center;
+  font-size: 60px;
+  color: #dad1d1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  .message {
+    font-size: 36px;
+    padding-left: 30px;
+  }
+}
 
 
 .reset-password {

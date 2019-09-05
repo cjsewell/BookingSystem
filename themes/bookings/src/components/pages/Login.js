@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {Formik} from 'formik';
 import {Form, InputGroup, Button, Alert} from 'react-bootstrap';
-// import * as Yup from 'yup';
 // import {AuthContext} from '../context/AuthProvider.js';
 // import {Redirect} from 'react-router';
-// import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Link} from 'react-router-dom'
+import {LoginFormValidation} from "../form/validation/LoginFormValidation";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class Login extends Component {
     render() {
@@ -13,7 +13,7 @@ class Login extends Component {
             <div className="login-page">
                 <div className="d-flex h-100 w-100 align-items-center justify-content-center">
                     <Formik
-                        // initialValues={{username: '', password: ''}}
+                        initialValues={{username: '', password: ''}}
                         // onSubmit={(values, {setSubmitting}) => {
                         //     this.context.login(values)
                         //         .then((data) => {
@@ -31,7 +31,7 @@ class Login extends Component {
                         //         setSubmitting(false)
                         //     })
                         // }}
-                        // validationSchema={formValidation}
+                        validationSchema={LoginFormValidation}
                     >{({handleBlur, handleChange, handleSubmit, errors, values, touched, isSubmitting}) => (
                         <Form onSubmit={handleSubmit} className="login-wrapper">
                             <Form.Label className="mb-2">
@@ -86,7 +86,7 @@ class Login extends Component {
                                     className="mt-2 btn-lg btn-block"
                                     type="submit"
                                     disabled={isSubmitting}
-                            >Login </Button>
+                            >Login {isSubmitting ? <FontAwesomeIcon icon="circle-notch" spin/> : ""}</Button>
 
                             <div className="forgot-password">
                                 <Link to='/profile/resetpassword'>Forgot Password</Link>
