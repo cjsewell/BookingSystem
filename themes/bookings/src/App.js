@@ -12,6 +12,7 @@ import {BrowserRouter as Router, Switch, Route, NavLink} from 'react-router-dom'
 import DefaultLayout from "./components/layouts/DefaultLayout";
 import Login from "./components/pages/Login";
 import {AuthProvider, AuthConsumer} from "./components/context/AuthProvider";
+import ProtectedRoute from './components/routes/ProtectedRoute';
 
 
 function App() {
@@ -27,25 +28,25 @@ function App() {
                   <AuthConsumer>
                       {({member}) => {
                           return member ? (
-                                  <>
-                                      <Navbar light color="light" expand="md">
-                                          <NavbarToggler onClick={toggleSmallScreen}/>
-                                          <Collapse isOpen={isOpen} navbar>
-                                              <Nav className="mr-auto" navbar>
-                                                  {MainNav.links.map((item) => {
-                                                          return (
-                                                              <NavItem key={item.url} className="navbar-nav">
-                                                                  <NavLink exact to={item.url}
-                                                                           className="nav-link"> {item.name}</NavLink>
-                                                              </NavItem>
-                                                          )
-                                                      }
-                                                  )}
-                                              </Nav>
-                                          </Collapse>
-                                      </Navbar>
-                                  </>
-                              ) :
+                              <>
+                                  <Navbar light color="light" expand="md">
+                                      <NavbarToggler onClick={toggleSmallScreen}/>
+                                      <Collapse isOpen={isOpen} navbar>
+                                          <Nav className="mr-auto" navbar>
+                                              {MainNav.links.map((item) => {
+                                                  return (
+                                                      <NavItem key={item.url} className="navbar-nav">
+                                                          <NavLink exact to={item.url}
+                                                                   className="nav-link"> {item.name}</NavLink>
+                                                      </NavItem>
+                                                  )
+                                              }
+                                              )}
+                                          </Nav>
+                                      </Collapse>
+                                  </Navbar>
+                              </>
+                           ) :
                               <>
                               </>
                       }}
@@ -53,7 +54,7 @@ function App() {
                   </AuthConsumer>
                   <Switch>
                       <Route path='/profile/login' component={Login} />
-                      <Route path='/' component={props => <DefaultLayout {...props} />}/>
+                      <ProtectedRoute path='/' component={props => <DefaultLayout {...props} />}/>
                   </Switch>
               </Router>
           </AuthProvider>

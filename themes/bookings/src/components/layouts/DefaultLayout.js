@@ -1,27 +1,25 @@
-import React, {Component} from 'react';
-import {Switch, Route } from 'react-router-dom';
+import React from 'react';
+import { Switch } from 'react-router-dom';
 import routes from '../../route';
+import ProtectedRoute from '../routes/ProtectedRoute';
 
-class DefaultLayout extends Component {
-    render() {
-        return (
-            <div className="main">
-                <Switch>
-                    {routes.map((route, idx) => {
-                        return (
-                            <Route
-                                key={idx}
-                                path={route.path}
-                                exact={route.exact}
-                                name={route.name}
-                                component={route.component}
-                            />
-                        );
-                    })}
-                </Switch>
-            </div>
-        )
-    }
+function DefaultLayout() {
+    return (
+        <div className="main">
+            <Switch>
+                {routes.map((route, idx) => {
+                    return (
+                        <ProtectedRoute
+                            key={idx}
+                            path={route.path}
+                            exact={route.exact}
+                            name={route.name}
+                            component={route.component}
+                        />
+                    );
+                })}
+            </Switch>
+        </div>
+    )
 }
-
 export default DefaultLayout;
