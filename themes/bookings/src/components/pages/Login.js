@@ -1,14 +1,13 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Formik} from 'formik';
-import {Form, InputGroup, Button, Alert} from 'react-bootstrap';
+import {Form, InputGroup, Button} from 'react-bootstrap';
 // import {AuthContext} from '../context/AuthProvider.js';
 // import {Redirect} from 'react-router';
 import {Link} from 'react-router-dom'
 import {LoginFormValidation} from "../form/validation/LoginFormValidation";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-class Login extends Component {
-    render() {
+function Login() {
         return (
             <div className="login-page">
                 <div className="d-flex h-100 w-100 align-items-center justify-content-center">
@@ -97,7 +96,6 @@ class Login extends Component {
                 </div>
             </div>
         );
-    }
 }
 
 export default Login;

@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Authentication} from "../partials/Authentication";
+import BookingAPI from "../../api-client/BookingAPI";
 
 const initialState = {
     isLoggedIn: false,
@@ -10,27 +11,32 @@ const initialState = {
 
 export const AuthContext = React.createContext(initialState);
 
-class AuthProvider extends Component{
-    constructor(props) {
-        super(props);
-        this.state = initialState;
-    }
+function AuthProvider(props) {
+    const [state, setState] = useState({...initialState});
 
-    render() {
-        const {isLoading} = this.state;
-        if(isLoading) {
-            return (
-                   <Authentication />
-            );
-        }else {
-            return (
-                <AuthContext.Provider value={{...this.state}}>
-                    <h1>tes</h1>
-                    {/*{this.props.children}*/}
-                </AuthContext.Provider>
-            )
-        }
+    useEffect(() => {
+            BookingAPI.request.get({url: '/api/auth/whoami'})
+                .then((data) => {
+                if(data.success){
+                    setState({isLoading: false, member: data.member, isLoggedIn: true})
+                }
+            }, (error) => {
+                    setState({error: error, isLoading: false, member: null})
+                })
+    }, []);
+
+    if(state.isLoading) {
+        return (
+            <Authentication />
+        );
+    } else {
+        return (
+            <AuthContext.Provider value={{...state}}>
+                {props.children}
+            </AuthContext.Provider>
+        )
     }
 }
+
 const AuthConsumer = AuthContext.Consumer;
 export {AuthProvider, AuthConsumer};

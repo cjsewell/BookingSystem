@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import ReactTable from 'react-table'
 
 const data = [{
@@ -26,8 +26,7 @@ const columns = [{
     accessor: 'friend.age'
 }];
 
-class ClientPage extends Component{
-    render() {
+function ClientPage(){
         return (
             <div className="custom-container">
                 <ReactTable
@@ -36,7 +35,6 @@ class ClientPage extends Component{
                 />
             </div>
         );
-    }
 }
 
 export default ClientPage;

@@ -4,7 +4,7 @@
 /_resources/
 /public/_resources/
 .ss.error.log
-/.idea
+.idea/
 node_modules/
 ss.error.log
 .DS_Store
