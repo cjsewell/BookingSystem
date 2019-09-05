@@ -13,7 +13,7 @@ namespace Bookings\Models {
     use SilverStripe\ORM\ValidationResult;
 
     /**
-     * Class Client
+     * Class ClientPage
      * @package Bookings\Models
      * @property string $Name
      * @property string $Email
@@ -22,8 +22,8 @@ namespace Bookings\Models {
      * @property string $Address
      */
     class Client extends DataObject {
-        private static $table_name = "Client";
-        private static $singular_name = "Client";
+        private static $table_name = "ClientPage";
+        private static $singular_name = "ClientPage";
         private static $plurarl_name = "Clients";
 
         private static $db = [

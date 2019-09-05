@@ -1,0 +1,8 @@
+#---
+#Name: myroutes
+#After:
+#  - '#coreroutes'
+#---
+#SilverStripe\Control\Director:
+#  rules:
+#    'api/auth': 'Bookings\Controllers\AuthenticationController'
