@@ -10,6 +10,7 @@ import {
 import MainNav from "./components/navigation/MainNav";
 import {BrowserRouter as Router, Switch, Route, NavLink} from 'react-router-dom';
 import DefaultLayout from "./components/layouts/DefaultLayout";
+import Login from "./components/pages/Login";
 
 const initialState = {
     isOpen: false
@@ -49,6 +50,7 @@ class App extends Component{
                 </Collapse>
             </Navbar>
               <Switch>
+                  <Route path='/profile/login' component={Login} />
                   <Route path='/' component={props => <DefaultLayout {...props} />}/>
               </Switch>
       </Router>
