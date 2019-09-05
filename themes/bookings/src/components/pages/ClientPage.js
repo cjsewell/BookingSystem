@@ -24,7 +24,7 @@ const columns = [{
 }, {
     Header: props => <span>Friend Age</span>, // Custom header components!
     accessor: 'friend.age'
-}]
+}];
 
 class ClientPage extends Component{
     render() {
