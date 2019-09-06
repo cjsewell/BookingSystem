@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTable from 'react-table'
+import StatusBar from "../filters/StatusBar";
 
 const data = [{
     name: 'Tanner Linsley',
@@ -29,6 +30,9 @@ const columns = [{
 function ClientPage(){
         return (
             <div className="custom-container">
+                <StatusBar
+                    showCompany={true}
+                />
                 <ReactTable
                     data={data}
                     columns={columns}

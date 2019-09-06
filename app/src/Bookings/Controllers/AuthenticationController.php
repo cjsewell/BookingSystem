@@ -34,6 +34,10 @@ namespace Bookings\Controllers {
           'logout' => 'Logout'
         ];
 
+        /**
+         * @param HTTPRequest $request
+         * @return HTTPResponse
+         */
         public function Login(HTTPRequest $request) : HTTPResponse
         {
             $response = [

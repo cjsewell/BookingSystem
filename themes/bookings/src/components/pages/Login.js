@@ -1,11 +1,12 @@
 import React, {useContext, useState} from 'react';
 import {Formik} from 'formik';
-import {Form, InputGroup, Button, Alert} from 'react-bootstrap';
+import {Form, InputGroup, Button} from 'react-bootstrap';
 import {Redirect} from 'react-router';
 import {Link} from 'react-router-dom'
 import {LoginFormValidation} from "../form/validation/LoginFormValidation";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { AuthContext } from '../context/AuthProvider';
+import ErrorAlert from "../alerts/ErrorAlert";
 
 function Login() {
     const [error, setError] = useState(null);
@@ -72,9 +73,7 @@ function Login() {
                             </InputGroup>
 
                             {error && (
-                                <Alert variant="danger" className={error ? 'd-block mt-2' : 'd-none'}>
-                                    {error}
-                                </Alert>
+                                <ErrorAlert error={error} />
                             )}
 
                             <Button variant="primary"
