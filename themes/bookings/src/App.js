@@ -13,6 +13,7 @@ import DefaultLayout from "./components/layouts/DefaultLayout";
 import Login from "./components/pages/Login";
 import {AuthProvider, AuthConsumer} from "./components/context/AuthProvider";
 import ProtectedRoute from './components/routes/ProtectedRoute';
+import ResetPassword from "./components/pages/ResetPassword";
 
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
                   </AuthConsumer>
                   <Switch>
                       <Route path='/profile/login' component={Login} />
+                      <Route path='/profile/resetpassword' component={ResetPassword} />
                       <ProtectedRoute path='/' component={props => <DefaultLayout {...props} />}/>
                   </Switch>
               </Router>
