@@ -7,7 +7,7 @@ import {
     Collapse,
     NavItem,
 } from 'reactstrap';
-import MainNav from "./components/navigation/MainNav";
+import MainNavRoutes from "./components/navigation/MainNavRoutes";
 import {BrowserRouter as Router, Switch, Route, NavLink} from 'react-router-dom';
 import DefaultLayout from "./components/layouts/DefaultLayout";
 import Login from "./components/pages/Login";
@@ -32,7 +32,7 @@ function App() {
                                       <NavbarToggler onClick={toggleSmallScreen}/>
                                       <Collapse isOpen={isOpen} navbar>
                                           <Nav className="mr-auto" navbar>
-                                              {MainNav.links.map((item) => {
+                                              {MainNavRoutes.links.map((item) => {
                                                   return (
                                                       <NavItem key={item.url} className="navbar-nav">
                                                           <NavLink exact to={item.url}
