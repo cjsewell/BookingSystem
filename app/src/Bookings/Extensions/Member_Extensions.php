@@ -17,7 +17,7 @@ namespace Bookings\Extensions {
      */
     class Member_Extensions extends DataExtension {
 
-        private static $has_one = [
+        private static $belongs_many_many = [
             'Company' => Company::class
         ];
 

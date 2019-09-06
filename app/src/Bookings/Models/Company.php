@@ -32,8 +32,11 @@ namespace Bookings\Models {
 
         private static $has_many = [
             'Rooms' => Room::class,
-            'Members' => Member::class,
             'Clients' => Client::class
+        ];
+
+        private static $many_many = [
+            'Members' => Member::class,
         ];
 
         public function validate()
