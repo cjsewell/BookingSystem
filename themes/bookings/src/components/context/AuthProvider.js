@@ -3,7 +3,6 @@ import { Authentication } from "../partials/Authentication";
 import BookingAPI from "../../api-client/BookingAPI";
 
 const initialState = {
-    isLoggedIn: false,
     member: null,
     isLoading: true,
     error: null
@@ -18,12 +17,33 @@ function AuthProvider(props) {
         BookingAPI.request.get({ url: '/api/auth/whoami' })
             .then((data) => {
                 if (data.success) {
-                    setState({ isLoading: false, member: data.member, isLoggedIn: true })
+                    setState({ isLoading: false, member: data.member })
+                } else {
+                    setState({ error: "Error logging in", isLoading: false, member: null })
                 }
-            }, (error) => {
-                setState({ error: error, isLoading: false, member: null })
             })
     }, []);
+
+    const login = (data) => (
+        BookingAPI.request.post({url:'/api/auth/login', body: JSON.stringify(data, null, 2)})
+            .then((result) => {
+                if (result.success) {
+                    setState({ isLoading: false, member: result.member })
+                }
+                return result;
+            })
+    );
+
+    const logout = () => (
+        BookingAPI.request.get({url: 'api/auth/logout'})
+            .then((result) => {
+                if(result.success) {
+                    setState({ error: null, isLoading: false, member: null })
+                }
+            }, (error) => {
+                setState({ error: error, isLoading: false, member: null})
+            })
+    );
 
     if (state.isLoading) {
         return (
@@ -31,7 +51,7 @@ function AuthProvider(props) {
         );
     } else {
         return (
-            <AuthContext.Provider value={{ ...state }}>
+            <AuthContext.Provider value={{ ...state, login: login, logout: logout}}>
                 {props.children}
             </AuthContext.Provider>
         )

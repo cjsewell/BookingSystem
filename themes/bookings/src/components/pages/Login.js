@@ -1,6 +1,6 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {Formik} from 'formik';
-import {Form, InputGroup, Button} from 'react-bootstrap';
+import {Form, InputGroup, Button, Alert} from 'react-bootstrap';
 import {Redirect} from 'react-router';
 import {Link} from 'react-router-dom'
 import {LoginFormValidation} from "../form/validation/LoginFormValidation";
@@ -8,29 +8,24 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { AuthContext } from '../context/AuthProvider';
 
 function Login() {
+    const [error, setError] = useState(null);
     const myContext = useContext(AuthContext);
-        return myContext.member ? <Redirect to='/' / > : (
+        return myContext.member ? <Redirect to='/' /> : (
             <div className="login-page">
                 <div className="d-flex h-100 w-100 align-items-center justify-content-center">
                     <Formik
                         initialValues={{username: '', password: ''}}
-                        // onSubmit={(values, {setSubmitting}) => {
-                        //     this.context.login(values)
-                        //         .then((data) => {
-                        //                 const {history} = this.props
-                        //                 if (data.success) {
-                        //                     history.push('/')
-                        //                 } else {
-                        //                     history.push('/profile/login')
-                        //                     this.setState({
-                        //                         error: data.message
-                        //                     })
-                        //                 }
-                        //             }
-                        //         ).finally(() => {
-                        //         setSubmitting(false)
-                        //     })
-                        // }}
+                        onSubmit={(values, {setSubmitting}) => {
+                            myContext.login(values)
+                                .then((data) => {
+                                    if (!data.success) {
+                                        setError(data.message)
+                                    }}
+                                ).finally(() => {
+                                    console.log("con", myContext)
+                                setSubmitting(false)
+                            })
+                        }}
                         validationSchema={LoginFormValidation}
                     >{({handleBlur, handleChange, handleSubmit, errors, values, touched, isSubmitting}) => (
                         <Form onSubmit={handleSubmit} className="login-wrapper">
@@ -76,11 +71,11 @@ function Login() {
                                 )}
                             </InputGroup>
 
-                            {/*{error && (*/}
-                                {/*<Alert variant="danger" className={error ? 'd-block mt-2' : 'd-none'}>*/}
-                                    {/*{error}*/}
-                                {/*</Alert>*/}
-                            {/*)}*/}
+                            {error && (
+                                <Alert variant="danger" className={error ? 'd-block mt-2' : 'd-none'}>
+                                    {error}
+                                </Alert>
+                            )}
 
                             <Button variant="primary"
                                     className="mt-2 btn-lg btn-block"

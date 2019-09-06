@@ -17,7 +17,6 @@ import ProtectedRoute from './components/routes/ProtectedRoute';
 
 function App() {
     const [isOpen, setOpen] = useState(false);
-
     function toggleSmallScreen () {
         setOpen(!isOpen)
     }
@@ -26,7 +25,7 @@ function App() {
           <AuthProvider>
               <Router>
                   <AuthConsumer>
-                      {({member}) => {
+                      {({member, logout}) => {
                           return member ? (
                               <>
                                   <Navbar light color="light" expand="md">
@@ -42,6 +41,16 @@ function App() {
                                                   )
                                               }
                                               )}
+                                          </Nav>
+                                          <Nav>
+                                              <NavItem className="navbar-nav">
+                                                  <NavLink to='/profile/login' className="nav-link"
+                                                           onClick={(e) => {
+                                                               e.preventDefault();
+                                                               logout();
+                                                           }}
+                                                  >Logout</NavLink>
+                                              </NavItem>
                                           </Nav>
                                       </Collapse>
                                   </Navbar>
