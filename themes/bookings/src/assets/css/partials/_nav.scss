@@ -6,6 +6,12 @@
   }
 }
 
-.custom-container {
-  padding: 10px 20px;
+.main {
+  height: 100%;
+
+  .custom-container {
+    padding: 10px 20px;
+    height: 100%;
+  }
 }
+
