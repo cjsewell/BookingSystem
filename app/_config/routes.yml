@@ -6,3 +6,4 @@ After:
 SilverStripe\Control\Director:
   rules:
     'api/auth': 'Bookings\Controllers\AuthenticationController'
+    'api/company': 'Bookings\Controllers\CompanyController'

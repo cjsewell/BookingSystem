@@ -18,7 +18,7 @@ namespace Bookings\Extensions {
     class Member_Extensions extends DataExtension {
 
         private static $belongs_many_many = [
-            'Company' => Company::class
+            'Companies' => Company::class
         ];
 
         public function updateValidator ($validator){
