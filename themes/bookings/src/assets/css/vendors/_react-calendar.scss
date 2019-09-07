@@ -1,1 +1,14 @@
 @import '~react-big-calendar/lib/sass/styles';
+
+.rbc-calendar {
+  .rbc-toolbar {
+    background: #e9edf1;
+    padding: 5px 10px;
+
+    .rbc-toolbar-label {
+      font-style: italic;
+      font-weight: 100;
+      font-size: 30px;
+    }
+  }
+}
