@@ -8,7 +8,10 @@
 
 namespace Bookings\Controllers {
 
+    use SilverStripe\Dev\Debug;
+    use SilverStripe\ORM\ArrayList;
     use SilverStripe\Security\PermissionFailureException;
+    use SilverStripe\View\ArrayData;
 
     /**
      * Class CompanyController
@@ -35,13 +38,17 @@ namespace Bookings\Controllers {
         public function ListCompanies(){
             $member = $this->getLoggedInUser();
             if ($member->Companies()){
-                $data = [
-                    'CompanyIDs' => $member->Companies()->Column('ID'),
-                    'CompanyNames' => $member->Companies()->Column('Name')
-                ];
-                return BaseAPIController::create()->JsonResponse($data);
+                $data = ArrayList::create();
+                foreach ($member->Companies() as $item){
+                    $item = [
+                        'ID' => $item->ID,
+                        'Name' => $item->Name
+                    ];
+                    $data->add($item);
+                }
+                return BaseAPIController::create()
+                    ->JsonResponse($data->toNestedArray());
             }
-            return null;
         }
 
 
@@ -63,11 +70,13 @@ namespace Bookings\Controllers {
                     ];
                 }else{
                     $response = [
-                      'Rooms' => $comapny->Rooms()->Column('Name')
+                        'Company' => $comapny,
+                        'Rooms' => $comapny->Rooms()->Column('Name')
                     ];
                 }
             }
-            return BaseAPIController::create()->JsonResponse($response);
+            return BaseAPIController::create()
+                ->JsonResponse($response);
         }
     }
 }

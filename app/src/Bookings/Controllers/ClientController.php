@@ -34,7 +34,7 @@ namespace Bookings\Controllers {
                     ];
                 }else{
                     $response = [
-                        'Company' => $companies->toMap(),
+                        'Company' => $companies->Name,
                         'Rooms' => $companies->Clients()->Column('Name')
                     ];
                 }
