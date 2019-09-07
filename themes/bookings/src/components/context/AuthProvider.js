@@ -25,7 +25,7 @@ function AuthProvider(props) {
     }, []);
 
     const login = (data) => (
-        BookingAPI.request.post({url:'/api/auth/login', body: JSON.stringify(data, null, 2)})
+        BookingAPI.request.post({url: '/api/auth/login', body: JSON.stringify(data, null, 2)})
             .then((result) => {
                 if (result.success) {
                     setState({ isLoading: false, member: result.member })

@@ -1,12 +1,17 @@
 import React from 'react';
 import {Calendar, momentLocalizer} from 'react-big-calendar'
 import moment from 'moment'
+import StatusBar from "../filters/StatusBar";
 
 const localizer = momentLocalizer(moment)
 
 function CalendarPage() {
     return (
         <div className="custom-container">
+            <StatusBar
+                showCompany={true}
+                showRoom={true}
+            />
             <Calendar
                 localizer={localizer}
                 events={[

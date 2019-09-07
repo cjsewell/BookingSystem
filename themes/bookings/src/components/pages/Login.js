@@ -23,7 +23,6 @@ function Login() {
                                         setError(data.message)
                                     }}
                                 ).finally(() => {
-                                    console.log("con", myContext)
                                 setSubmitting(false)
                             })
                         }}

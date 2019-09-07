@@ -2,6 +2,7 @@ import React from 'react';
 import ReactTable from 'react-table'
 import StatusBar from "../filters/StatusBar";
 
+
 const data = [{
     name: 'Tanner Linsley',
     age: 26,
