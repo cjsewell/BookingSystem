@@ -5,48 +5,47 @@ import {StatusProvider, StatusConsumer, StatusContext} from "../context/StatusPr
 
 function StatusBar(props) {
     const {showCompany, showRoom} = props;
-    const mycontext = useContext(StatusContext);
+    const myContext = useContext(StatusContext);
 
-    function updateCompany(companyValue) {
-        mycontext.updateStates(companyValue)
+    function updateCompany(props) {
+        myContext.updateStates(props);
     }
 
         return (
            <StatusProvider>
-               <StatusConsumer>
-                   {({company}) => {
-                       const companyOptions = company && company.map((item) => {
-                           return {
-                               value: item.ID, label: item.Name
-                           }
-                       });
+              <StatusConsumer>
+                  {({company, selectedCompany}) => {
+                      const companyOptions = company && company.map((item) => {
+                          return {
+                              value: item.ID, label: item.Name
+                          }
+                      });
 
-                       return (
-                           <div className="filter-wrapper">
-                               {console.log(mycontext)}
-                               {showCompany && (
-                                   <div>
-                                       <div className='heading'>Company</div>
-                                       <Select
-                                           className="dropdown-select"
-                                           value={mycontext.selectedCompany}
-                                           options={companyOptions}
-                                           onChange={updateCompany}
-                                       />
-                                   </div>
-                               )}
+                      return (
+                          <div className="filter-wrapper">
+                              {showCompany && (
+                                  <div>
+                                      <div className='heading'>Company</div>
+                                      <Select
+                                          className="dropdown-select"
+                                          value={selectedCompany === undefined ? null : selectedCompany}
+                                          options={companyOptions}
+                                          onChange={updateCompany}
+                                      />
+                                  </div>
+                              )}
 
-                               {showRoom && (
-                                   <div>
-                                       <div className="heading">Space</div>
-                                       <Select
-                                           className="dropdown-select"
-                                       />
-                                   </div>
-                               )}
-                       </div>
-                   )}}
-               </StatusConsumer>
+                              {showRoom && (
+                                  <div>
+                                      <div className="heading">Space</div>
+                                      <Select
+                                          className="dropdown-select"
+                                      />
+                                  </div>
+                              )}
+                          </div>
+                      )}}
+              </StatusConsumer>
            </StatusProvider>
     )
 }

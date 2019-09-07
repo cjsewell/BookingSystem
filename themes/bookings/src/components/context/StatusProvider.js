@@ -3,7 +3,8 @@ import BookingAPI from "../../api-client/BookingAPI";
 
 const initialState = {
     company: null,
-    selectedCompany: null,
+    selectedCompany: {value: null, label: null},
+    selectedRoom: {value: null, label: null},
     rooms: null
 };
 
@@ -19,29 +20,11 @@ function StatusProvider(props) {
             })
     }, []);
 
-
-    // const fetchRooms = () => (
-    //         BookingAPI.request.get({url: 'api/clients/list/1'})
-    //             .then((data) => {
-    //                 console.log("data back", data)
-    //                  setState({rooms: data})
-    //     })
-    // );
-
-    // useEffect(() => {
-    //         BookingAPI.request.get({url: 'api/clients/list/1'})
-    //             .then((data) => {
-    //                 console.log("data back", data)
-    //                 setState({rooms: data})
-    //             })
-    //     }, []
-    // );
-
-    const updateStates = () => (
-        console.log("yes executed")
-    );
-
-
+    const updateStates = (data) => {
+        console.log("before update: ", data);
+        setState({...state, selectedCompany: {value: data.value, label: data.label}})
+        console.log("after update: ", state);
+    };
 
     return (
         <StatusContext.Provider value={{ ...state, updateStates: updateStates}}>
