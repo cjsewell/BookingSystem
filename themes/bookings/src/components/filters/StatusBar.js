@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import Select from 'react-select';
-import {StatusProvider, StatusConsumer, StatusContext} from "../context/StatusProvider";
+import StatusContext, {StatusConsumer} from "../context/StatusProvider";
 
 
 function StatusBar(props) {
@@ -8,45 +8,56 @@ function StatusBar(props) {
     const myContext = useContext(StatusContext);
 
     function updateCompany(props) {
-        myContext.updateStates(props);
+        myContext.updateCompany(props);
+        myContext.fetchRooms(props.value)
     }
 
-        return (
-           <StatusProvider>
-              <StatusConsumer>
-                  {({company, selectedCompany}) => {
-                      const companyOptions = company && company.map((item) => {
-                          return {
-                              value: item.ID, label: item.Name
-                          }
-                      });
+    function updateRoom(props) {
+        myContext.updateRoom(props);
+    }
 
-                      return (
-                          <div className="filter-wrapper">
-                              {showCompany && (
-                                  <div>
-                                      <div className='heading'>Company</div>
-                                      <Select
-                                          className="dropdown-select"
-                                          value={selectedCompany === undefined ? null : selectedCompany}
-                                          options={companyOptions}
-                                          onChange={updateCompany}
-                                      />
-                                  </div>
-                              )}
+    const companyOptions = myContext.company && myContext.company.map((item) => {
+        return {
+            value: item.ID, label: item.Name
+        }
+    });
 
-                              {showRoom && (
-                                  <div>
-                                      <div className="heading">Space</div>
-                                      <Select
-                                          className="dropdown-select"
-                                      />
-                                  </div>
-                              )}
-                          </div>
-                      )}}
-              </StatusConsumer>
-           </StatusProvider>
+    const roomOptions = myContext.rooms && myContext.rooms.map((item) => {
+        return {
+            value: item.ID, label: item.Name
+        }
+    });
+
+    console.log(myContext)
+    return (
+        <StatusConsumer>
+            {({selectedCompany, rooms}) => (
+                <div className="filter-wrapper">
+                    {showCompany && (
+                        <div>
+                            <div className='heading'>Company</div>
+                            <Select
+                                className="dropdown-select"
+                                value={selectedCompany && selectedCompany.value ? selectedCompany : null}
+                                options={companyOptions}
+                                onChange={updateCompany}
+                            />
+                        </div>
+                    )}
+                    {showRoom && (
+                        <div>
+                            <div className="heading">Location</div>
+                            <Select
+                                className="dropdown-select"
+                                options={roomOptions}
+                                isDisabled={(rooms && rooms.length === 0) || rooms == null}
+                                onChange={updateRoom}
+                            />
+                        </div>
+                    )}
+                </div>
+            )}
+        </StatusConsumer>
     )
 }
 

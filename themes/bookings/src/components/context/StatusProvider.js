@@ -1,33 +1,44 @@
 import React, {useState, useEffect} from 'react';
 import BookingAPI from "../../api-client/BookingAPI";
 
-const initialState = {
-    company: null,
-    selectedCompany: {value: null, label: null},
-    selectedRoom: {value: null, label: null},
-    rooms: null
-};
 
-export const StatusContext = React.createContext(initialState);
+const StatusContext = React.createContext({});
 
 function StatusProvider(props) {
-    const [state, setState] = useState({...initialState});
+    const [company, setCompany] = useState(null);
+    const [selectedCompany, setSelectedCompany] = useState({value: null, label: null});
+    const [selectedRoom, setSelectRoom] = useState({value: null, label: null});
+    const [rooms, setRooms] = useState(null);
+
 
     useEffect(() => {
         BookingAPI.request.get({url: '/api/company/list'})
             .then((data) => {
-                setState({company: data})
+                setCompany(data)
             })
     }, []);
 
-    const updateStates = (data) => {
-        console.log("before update: ", data);
-        setState({...state, selectedCompany: {value: data.value, label: data.label}})
-        console.log("after update: ", state);
+    const fetchRooms = (id) => (
+        BookingAPI.request.get({url: `/api/company/list/space/${id}`})
+            .then((data) => {
+                setRooms(data.Rooms)
+            })
+    );
+
+    const updateCompany = (data) => {
+        if(data){
+            setSelectedCompany({value: data.value, label: data.label});
+        }
+    };
+
+    const updateRoom = (data) => {
+        if(data){
+            setSelectRoom({value: data.value, label: data.label});
+        }
     };
 
     return (
-        <StatusContext.Provider value={{ ...state, updateStates: updateStates}}>
+        <StatusContext.Provider value={{company, selectedCompany, selectedRoom, rooms, updateCompany: updateCompany, updateRoom: updateRoom, fetchRooms: fetchRooms}}>
             {props.children}
         </StatusContext.Provider>
     )
@@ -36,3 +47,4 @@ function StatusProvider(props) {
 const StatusConsumer = StatusContext.Consumer;
 
 export {StatusProvider, StatusConsumer};
+export default StatusContext;

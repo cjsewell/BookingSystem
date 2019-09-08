@@ -8,10 +8,8 @@
 
 namespace Bookings\Controllers {
 
-    use SilverStripe\Dev\Debug;
     use SilverStripe\ORM\ArrayList;
     use SilverStripe\Security\PermissionFailureException;
-    use SilverStripe\View\ArrayData;
 
     /**
      * Class CompanyController
@@ -61,6 +59,7 @@ namespace Bookings\Controllers {
         public function ListRooms(){
             $member = $this->getLoggedInUser();
             $id = $this->getRequest()->param('ID');
+            $list = ArrayList::create();
             if($member){
                 $comapny = $member->Companies()->find('ID', $id);
                 if(!$comapny){
@@ -69,9 +68,18 @@ namespace Bookings\Controllers {
                         'message' => 'ID not found'
                     ];
                 }else{
+                    foreach ($comapny->Rooms() as $items){
+                        $data = [
+                            'ID' => $items->ID,
+                            'CompanyID' => $items->CompanyID,
+                            "Name" => $items->Name
+                        ];
+                        $list->add($data);
+                    }
+
                     $response = [
-                        'Company' => $comapny,
-                        'Rooms' => $comapny->Rooms()->Column('Name')
+                        'Company' => $comapny->toMap(),
+                        'Rooms' => $list->toNestedArray()
                     ];
                 }
             }
