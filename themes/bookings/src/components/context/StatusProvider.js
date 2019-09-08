@@ -14,14 +14,21 @@ function StatusProvider(props) {
     useEffect(() => {
         BookingAPI.request.get({url: '/api/company/list'})
             .then((data) => {
-                setCompany(data)
+                setCompany(data);
+                if(data && data.length === 1){
+                    setSelectedCompany({value: data[0].ID, label: data[0].Name});
+                    fetchRooms(data[0].ID);
+                }
             })
     }, []);
 
     const fetchRooms = (id) => (
         BookingAPI.request.get({url: `/api/company/list/space/${id}`})
             .then((data) => {
-                setRooms(data.Rooms)
+                setRooms(data.Rooms);
+                if(data.Rooms && data.Rooms.length === 1){
+                    setSelectRoom({value: data.Rooms[0].ID, label: data.Rooms[0].Name})
+                }
             })
     );
 

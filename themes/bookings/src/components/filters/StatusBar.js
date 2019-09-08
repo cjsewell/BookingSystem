@@ -28,10 +28,9 @@ function StatusBar(props) {
         }
     });
 
-    console.log(myContext)
     return (
         <StatusConsumer>
-            {({selectedCompany, rooms}) => (
+            {({selectedCompany, rooms, selectedRoom}) => (
                 <div className="filter-wrapper">
                     {showCompany && (
                         <div>
@@ -49,6 +48,7 @@ function StatusBar(props) {
                             <div className="heading">Location</div>
                             <Select
                                 className="dropdown-select"
+                                value={selectedRoom && selectedRoom.value ? selectedRoom : null}
                                 options={roomOptions}
                                 isDisabled={(rooms && rooms.length === 0) || rooms == null}
                                 onChange={updateRoom}
