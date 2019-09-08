@@ -1,25 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { Authentication } from "../partials/Authentication";
+import React, {useState, useEffect} from 'react';
+import {Authentication} from "../partials/Authentication";
 import BookingAPI from "../../api-client/BookingAPI";
 
-const initialState = {
-    member: null,
-    isLoading: true,
-    error: null
-};
-
-export const AuthContext = React.createContext(initialState);
+export const AuthContext = React.createContext({});
 
 function AuthProvider(props) {
-    const [state, setState] = useState({ ...initialState });
+    const [member, setMember] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        BookingAPI.request.get({ url: '/api/auth/whoami' })
+        BookingAPI.request.get({url: '/api/auth/whoami'})
             .then((data) => {
                 if (data.success) {
-                    setState({ isLoading: false, member: data.member })
+                    setMember(data.member);
+                    setIsLoading(false);
                 } else {
-                    setState({ error: "Error logging in", isLoading: false, member: null })
+                    setError("Error logging in");
+                    setIsLoading(false);
+                    setMember(null);
                 }
             })
     }, []);
@@ -28,7 +27,8 @@ function AuthProvider(props) {
         BookingAPI.request.post({url: '/api/auth/login', body: JSON.stringify(data, null, 2)})
             .then((result) => {
                 if (result.success) {
-                    setState({ isLoading: false, member: result.member })
+                    setMember(result.member);
+                    setIsLoading(false);
                 }
                 return result;
             })
@@ -37,21 +37,25 @@ function AuthProvider(props) {
     const logout = () => (
         BookingAPI.request.get({url: 'api/auth/logout'})
             .then((result) => {
-                if(result.success) {
-                    setState({ error: null, isLoading: false, member: null })
+                if (result.success) {
+                    setMember(null);
+                    setError(null);
+                    setIsLoading(false);
                 }
             }, (error) => {
-                setState({ error: error, isLoading: false, member: null})
+                setError(error);
+                setIsLoading(false);
+                setMember(null);
             })
     );
 
-    if (state.isLoading) {
+    if (isLoading) {
         return (
-            <Authentication />
+            <Authentication/>
         );
     } else {
         return (
-            <AuthContext.Provider value={{ ...state, login: login, logout: logout}}>
+            <AuthContext.Provider value={{isLoading, member, error, login: login, logout: logout}}>
                 {props.children}
             </AuthContext.Provider>
         )
@@ -59,4 +63,4 @@ function AuthProvider(props) {
 }
 
 const AuthConsumer = AuthContext.Consumer;
-export { AuthProvider, AuthConsumer };
+export {AuthProvider, AuthConsumer};
