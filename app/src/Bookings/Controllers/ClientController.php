@@ -16,10 +16,12 @@ namespace Bookings\Controllers {
 
         private static $allowed_actions = [
             'ListClients',
+            'Save'
         ];
 
         private static $url_handlers = [
-            'list/$ID' => 'ListClients'
+            'list/$ID' => 'ListClients',
+            'save' => 'Save'
         ];
 
         public function ListClients(){
@@ -40,6 +42,10 @@ namespace Bookings\Controllers {
                 }
             }
             return BaseAPIController::create()->JsonResponse($response);
+        }
+
+        public function Save(){
+            return null;
         }
     }
 }
