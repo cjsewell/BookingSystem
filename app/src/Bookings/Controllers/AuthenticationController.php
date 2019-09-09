@@ -65,14 +65,17 @@ namespace Bookings\Controllers {
                     $this->getLoginHandler()->logIn($member, true, $request);
                 }
 
+                if($member)
+                    $data = $member->getAllMemberData();
+
                 $response = [
                     'success' => $result->isValid() ? true : false,
                     'message' => $result->isValid() ? "Successfully logged in" : $error,
-                    'member' => $result->isValid() ? $member->toMap() : null
+                    'member' => $result->isValid() ? $data : null
                 ];
             }
 
-            return BaseAPIController::create()->JsonResponse($response);
+            return $this->JsonResponse($response);
         }
 
         /**
@@ -94,7 +97,7 @@ namespace Bookings\Controllers {
                 ];
             }
 
-            return BaseAPIController::create()->JsonResponse($response);
+            return $this->JsonResponse($response);
         }
 
         /**
@@ -104,10 +107,10 @@ namespace Bookings\Controllers {
             $member = Security::getCurrentUser();
             $response = [
                 'success' => $member ? true : false,
-                'member' => $member ? $member->toMap() : null
+                'member' => $member ? $member->getAllMemberData() : null
             ];
 
-            return BaseAPIController::create()->JsonResponse($response);
+            return $this->JsonResponse($response);
         }
 
         /**

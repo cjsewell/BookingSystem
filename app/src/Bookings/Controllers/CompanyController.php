@@ -44,8 +44,7 @@ namespace Bookings\Controllers {
                     ];
                     $data->add($item);
                 }
-                return BaseAPIController::create()
-                    ->JsonResponse($data->toNestedArray());
+                return $this->JsonResponse($data->toNestedArray());
             }
         }
 
@@ -83,8 +82,7 @@ namespace Bookings\Controllers {
                     ];
                 }
             }
-            return BaseAPIController::create()
-                ->JsonResponse($response);
+            return $this->JsonResponse($response);
         }
     }
 }
