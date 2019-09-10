@@ -15,7 +15,7 @@ function StatusProvider(props) {
         BookingAPI.request.get({url: '/api/company/list'})
             .then((data) => {
                 setCompany(data);
-                if(data && data.length === 1){
+                if (data && data.length === 1) {
                     setSelectedCompany({value: data[0].ID, label: data[0].Name});
                     fetchRooms(data[0].ID);
                 }
@@ -26,26 +26,37 @@ function StatusProvider(props) {
         BookingAPI.request.get({url: `/api/company/list/space/${id}`})
             .then((data) => {
                 setRooms(data.Rooms);
-                if(data.Rooms && data.Rooms.length === 1){
+                if (data.Rooms && data.Rooms.length === 1) {
                     setSelectRoom({value: data.Rooms[0].ID, label: data.Rooms[0].Name})
                 }
             })
     );
 
     const updateCompany = (data) => {
-        if(data){
+        if (data) {
             setSelectedCompany({value: data.value, label: data.label});
+            if (selectedRoom && selectedRoom.value !== null) {
+                setSelectRoom({value: null, label: null})
+            }
         }
     };
 
     const updateRoom = (data) => {
-        if(data){
+        if (data) {
             setSelectRoom({value: data.value, label: data.label});
         }
     };
 
     return (
-        <StatusContext.Provider value={{company, selectedCompany, selectedRoom, rooms, updateCompany: updateCompany, updateRoom: updateRoom, fetchRooms: fetchRooms}}>
+        <StatusContext.Provider value={{
+            company,
+            selectedCompany,
+            selectedRoom,
+            rooms,
+            updateCompany: updateCompany,
+            updateRoom: updateRoom,
+            fetchRooms: fetchRooms
+        }}>
             {props.children}
         </StatusContext.Provider>
     )
