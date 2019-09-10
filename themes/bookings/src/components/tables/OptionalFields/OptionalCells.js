@@ -2,11 +2,11 @@ import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Button} from "react-bootstrap";
 
-export const OptionalCells = ({editButton, deleteButton, onDeleteClick}) => {
+export const OptionalCells = ({editButton, deleteButton, onDeleteClick, onEditClick}) => {
   return (
       <div className='text-right'>
-          {editButton && (
-              <Button variant="success" size="sm" className="mr-1">
+          {editButton && onEditClick && (
+              <Button variant="success" size="sm" className="mr-1" onClick={() => onEditClick()} >
                   <FontAwesomeIcon icon='edit' className='mr-1'/>Edit
               </Button>
           )}

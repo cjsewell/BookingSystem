@@ -6,22 +6,24 @@ import StatusContext from "../context/StatusProvider";
 import ClientTable from "../tables/ClientsTable";
 import DeleteModal from "../Modals/DeleteModal";
 import ToastWrapper from "../wrappers/ToastWrapper";
+import ClientForm from "../form/ClientForm";
 
 function ClientPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [clientData, setClientData] = useState([]);
-    const [openDelete, setOpenDelete] = useState(false);
-    const [modalHeading, setModalHeading] = useState(null);
     const [rowData, setRowData] = useState({});
+    const [modalHeading, setModalHeading] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
 
     const myContext = useContext(StatusContext);
     const {selectedCompany} = myContext;
 
     useEffect(() => {
-        // if (selectedCompany && selectedCompany.value) {
-        fetchClientData();
-        // }
+        if (selectedCompany && selectedCompany.value) {
+            fetchClientData();
+        }
     }, [selectedCompany]);
 
     const fetchClientData = () => (
@@ -39,29 +41,31 @@ function ClientPage() {
 
     const resetStates = () => {
         setOpenDelete(false);
+        setOpenModal(false);
         setModalHeading(null);
         setRowData({});
     };
 
     const addHandler = () => {
-
+        resetStates();
+        setOpenModal(true);
+        setModalHeading("Add User");
     };
 
     const deleteHandler = (data) => {
         resetStates();
         setOpenDelete(true);
         setRowData(data.original);
-        setModalHeading("Delete");
+        setModalHeading("Delete User");
     };
 
-    const editHanlder = () => {
-
+    const editHandler = (data) => {
+        resetStates();
+        setOpenModal(true);
+        setRowData(data.original);
+        setModalHeading("Edit User");
     };
 
-
-    console.log(openDelete)
-    console.log(rowData)
-    console.log(modalHeading)
 
     if (error) {
         return (
@@ -75,21 +79,37 @@ function ClientPage() {
                     showCompany={true}
                 />
 
-                <DeleteModal
-                    open={openDelete}
-                    data={rowData}
-                    heading={modalHeading}
-                    reset={resetStates}
-                    onSuccess={() => {
-                        fetchClientData();
-                        resetStates();
-                    }}
-                />
+                {openModal && (
+                    <ClientForm
+                        open={openModal}
+                        data={rowData}
+                        heading={modalHeading}
+                        reset={resetStates}
+                        onSuccess={() => {
+                            fetchClientData();
+                        }}
+                    />
+                )}
+
+                {openDelete && (
+                    <DeleteModal
+                        open={openDelete}
+                        data={rowData}
+                        heading={modalHeading}
+                        reset={resetStates}
+                        onSuccess={() => {
+                            fetchClientData();
+                            resetStates();
+                        }}
+                    />
+                )}
 
                 <ClientTable
                     data={clientData}
                     loading={selectedCompany && selectedCompany.value ? isLoading : false}
                     handleDelete={deleteHandler}
+                    handleAdd={addHandler}
+                    handleEdit={editHandler}
                 />
 
             </div>

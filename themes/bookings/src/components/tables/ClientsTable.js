@@ -4,10 +4,18 @@ import {OptionalHeader} from "./OptionalFields/OptionalHeader";
 import {OptionalCells} from "./OptionalFields/OptionalCells";
 
 function ClientTable(props) {
-    const {data, loading, handleDelete} = props;
+    const {data, loading, handleDelete, handleAdd, handleEdit} = props;
 
     const deleteClicked = (row) => {
         handleDelete(row);
+    };
+
+    const addClicked = () => {
+        handleAdd()
+    };
+
+    const editClicked = (row) => {
+        handleEdit(row);
     };
 
     const clientColumn = [
@@ -29,16 +37,22 @@ function ClientTable(props) {
             accessor: 'Mobile',
             filterable: false
         }, {
+            Header: 'Address',
+            accessor: 'Address'
+        }, {
             Header: OptionalHeader({
-                addButton: true
+                addButton: true,
+                onAddClick: () => addClicked()
             }),
             Cell: (row) =>
                 OptionalCells({
                     editButton: true,
                     deleteButton: true,
-                    onDeleteClick: () => deleteClicked(row)
+                    onDeleteClick: () => deleteClicked(row),
+                    onEditClick: () => editClicked(row)
                 }),
-            filterable: false
+            filterable: false,
+            sortable: false
         }
     ];
 
@@ -47,7 +61,6 @@ function ClientTable(props) {
             data={data}
             columns={clientColumn}
             loading={loading}
-
         />
     )
 }
