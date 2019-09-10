@@ -20,9 +20,11 @@ function ClientTable(props) {
 
     const clientColumn = [
         {
+            id: 'FirstName',
             Header: 'First Name',
             accessor: 'FirstName'
         }, {
+            id: 'LastName',
             Header: 'Last Name',
             accessor: 'LastName'
         }, {
@@ -61,6 +63,16 @@ function ClientTable(props) {
             data={data}
             columns={clientColumn}
             loading={loading}
+            sorted={[
+                {
+                    id: 'FirstName',
+                    desc: false
+                },
+                {
+                    id: 'LastName',
+                    desc: false
+                }
+            ]}
         />
     )
 }

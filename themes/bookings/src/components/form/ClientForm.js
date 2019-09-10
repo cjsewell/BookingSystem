@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, Form, InputGroup, Modal, Row, Col} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Formik} from 'formik';
+import {ClientFormValidation} from "./validation/ClientFormValidation";
 
 function ClientForm(props) {
     const {data, open, heading, reset} = props;
@@ -10,7 +11,7 @@ function ClientForm(props) {
         <Modal show={open} onHide={() => reset()}>
             <Formik
                 initialValues={{...data}}
-
+                validationSchema={ClientFormValidation}
             >{({handleSubmit, values, errors, touched, isSubmitting, handleBlur, handleChange}) => (
                 <Form onSubmit={handleSubmit}>
                     <Modal.Header closeButton>
@@ -31,6 +32,10 @@ function ClientForm(props) {
                                         isValid={touched.FirstName && !errors.FirstName}
                                         isInvalid={!!errors.FirstName}
                                     />
+                                    {errors.FirstName && (
+                                        <Form.Control.Feedback
+                                        type='invalid'>{errors.FirstName}</Form.Control.Feedback>
+                                    )}
                                 </InputGroup>
                             </Col>
 
@@ -45,6 +50,10 @@ function ClientForm(props) {
                                         isValid={touched.LastName && !errors.LastName}
                                         isInvalid={!!errors.LastName}
                                     />
+                                    {errors.LastName && (
+                                        <Form.Control.Feedback
+                                            type='invalid'>{errors.LastName}</Form.Control.Feedback>
+                                    )}
                                 </InputGroup>
                             </Col>
 
@@ -59,6 +68,10 @@ function ClientForm(props) {
                                         isValid={touched.Email && !errors.Email}
                                         isInvalid={!!errors.Email}
                                     />
+                                    {errors.Email && (
+                                        <Form.Control.Feedback
+                                            type='invalid'>{errors.Email}</Form.Control.Feedback>
+                                    )}
                                 </InputGroup>
                             </Col>
 
@@ -73,6 +86,11 @@ function ClientForm(props) {
                                         isValid={touched.Phone && !errors.Phone}
                                         isInvalid={!!errors.Phone}
                                     />
+
+                                    {errors.Phone && (
+                                        <Form.Control.Feedback
+                                            type='invalid'>{errors.Phone}</Form.Control.Feedback>
+                                    )}
                                 </InputGroup>
                             </Col>
 
@@ -87,6 +105,11 @@ function ClientForm(props) {
                                         isValid={touched.Mobile && !errors.Mobile}
                                         isInvalid={!!errors.Mobile}
                                     />
+
+                                    {errors.Mobile && (
+                                        <Form.Control.Feedback
+                                            type='invalid'>{errors.Mobile}</Form.Control.Feedback>
+                                    )}
                                 </InputGroup>
                             </Col>
 
