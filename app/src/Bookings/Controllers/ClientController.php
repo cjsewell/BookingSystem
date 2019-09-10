@@ -8,6 +8,9 @@
 
 namespace Bookings\Controllers {
 
+    use Bookings\Models\Client;
+    use SilverStripe\Control\HTTPRequest;
+
     /**
      * Class ClientController
      * @package Bookings\Controllers
@@ -16,14 +19,20 @@ namespace Bookings\Controllers {
 
         private static $allowed_actions = [
             'ListClients',
-            'Save'
+            'Save',
+            'Delete'
         ];
 
         private static $url_handlers = [
             'list/$ID' => 'ListClients',
-            'save' => 'Save'
+            'save' => 'Save',
+            'delete' => 'Delete'
         ];
 
+        /**
+         * @return \SilverStripe\Control\HTTPResponse
+         * @throws \SilverStripe\Security\PermissionFailureException
+         */
         public function ListClients(){
             $member = $this->getLoggedInUser();
             $id = $this->getRequest()->param('ID');
@@ -37,15 +46,41 @@ namespace Bookings\Controllers {
                 }else{
                     $response = [
                         'Company' => $companies->Name,
-                        'Rooms' => $companies->Clients()->Column('Name')
+                        'Clients' => $companies->Clients()->toNestedArray()
                     ];
                 }
             }
-            return BaseAPIController::create()->JsonResponse($response);
+            return $this->JsonResponse($response);
         }
 
         public function Save(){
             return null;
+        }
+
+        public function Delete(HTTPRequest $request){
+            $body = json_decode($request->getBody());
+            $response = [
+                'success' => false,
+                'message' => 'There was no body posted'
+            ];
+            if($body && $body->ID){
+                $client = Client::get()->byID($body->ID);
+                if($client && $client->ID > 0){
+                    try {
+                        $client->delete();
+                        $response = [
+                            'success' => true,
+                            'message' => 'Successfully deleted ' . $body->FirstName . ' ' . $body->LastName
+                        ];
+                    }catch (\Exception $exc) {
+                        $response = [
+                            'success' => false,
+                            'message' => $exc->getMessage()
+                        ];
+                    }
+                }
+            }
+            return $this->JsonResponse($response);
         }
     }
 }

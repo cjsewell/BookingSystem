@@ -6,23 +6,29 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.22",
     "@fortawesome/free-solid-svg-icons": "^5.10.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
+    "add": "^2.0.6",
     "bootstrap": "^4.3.1",
     "eslint-plugin-react-hooks": "^2.0.1",
     "formik": "^1.5.8",
     "jquery": "^3.4.1",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",
     "popper": "^1.0.1",
     "react": "^16.9.0",
     "react-big-calendar": "^0.22.0",
     "react-bootstrap": "^1.0.0-beta.12",
+    "react-csv": "^1.1.1",
     "react-dom": "^16.9.0",
+    "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.1",
     "react-select": "^3.0.4",
     "react-table": "^6.10.0",
+    "react-toastify": "^5.3.2",
     "reactstrap": "^8.0.1",
     "typeface-open-sans": "^0.0.75",
+    "yarn": "^1.17.3",
     "yup": "^0.27.0"
   },
   "scripts": {
@@ -46,5 +52,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://bookingsystem.vcap.me"
+  "proxy": "http://personal.bookingsystem.vcap.me"
 }
